@@ -1,17 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./../../components/Navbar";
 import { sanityClient, urlFor } from "../../sanity";
 import { Post } from "../../typings.d";
 import { GetStaticProps } from "next";
 import PortableText from "react-portable-text";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface Props {
   post: Post;
 }
 
+type Inputs = {
+  _id: string;
+  name: string;
+  email: string;
+  comment: string;
+};
+
 const Post = ({ post }: Props) => {
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    fetch("/api/createComment",{
+        method:"POST",
+        body:JSON.stringify(data),
+    }).then(()=>{
+        setSubmitted(true)
+    }).catch((err)=>{
+        setSubmitted(false);
+    });
+  };
+
   return (
-    <div className="mt-20">
+    <div>
       <Navbar />
       <img
         className="w-full h-96 object-cover"
@@ -38,80 +67,81 @@ const Post = ({ post }: Props) => {
           </div>
           <div className="mt-10">
             <PortableText
-             dataset = {process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}
-             projectId={
+              dataset={process.env.NEXT_PUBLIC_SANITY_DATASET || "production"}
+              projectId={
                 process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "yqvtu0ee"
-             }
-             content={post.body}
-             serializers={{
+              }
+              content={post.body}
+              serializers={{
                 h1: (props: any) => (
-                    <h1
-                        className="text-3xl font-bold my-5"
-                        {...props}
-                    />
+                  <h1 className="text-3xl font-bold my-5" {...props} />
                 ),
-                h2: (props: any) => (
-                    <h2
-                        className="text-2xl font-bold my-5"
-                    />
-                ),
-                h3: (props: any) => (
-                    <h3
-                        className="text-2xl font-bold my-5"
-                    />
-                ),
-                li: ({children}: any) => (
-                    <li
-                        className="ml-4 list-disc">{children}
-                    </li>
+                h2: (props: any) => <h2 className="text-2xl font-bold my-5" />,
+                h3: (props: any) => <h3 className="text-2xl font-bold my-5" />,
+                li: ({ children }: any) => (
+                  <li className="ml-4 list-disc">{children}</li>
                 ),
                 link: ({ href, children }: any) => (
-                    <a href={href} className="text-blue-500 hover:underline">
-                        {children}
-                    </a>
-                )
-             }}
+                  <a href={href} className="text-blue-500 hover:underline">
+                    {children}
+                  </a>
+                ),
+              }}
             />
           </div>
         </article>
-        <hr className="max-w-lg my-5 mx-auto border[1px] border-gray-700 font-bold"/>
+        <hr className="max-w-lg my-5 mx-auto border[1px] border-gray-700 font-bold" />
         <div>
-            <p className="text-xs text-blue-700 uppercase">Enjoyed this article 😁</p>
-            <h3 className="text-3xl font-bold">Leave a Comment below ✍️</h3>
-            <hr className="py-3 mt-2"/>
-            {/* Form */}
-            <form className="mt-7 flex flex-col gap-6 p-4">
-                <label className="flex flex-col">
-                    <span className="font-semibold text-base">Name</span>
-                    <input 
-                    className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
-                    type="text"
-                    placeholder="Enter your name"
-                    />
-                </label>
-                <label className="flex flex-col">
-                    <span className="font-semibold text-base">Email</span>
-                    <input 
-                    className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
-                    type="email"
-                    placeholder="Enter your Email"
-                    />
-                </label>
-                <label className="flex flex-col">
-                    <span className="font-semibold text-base">Comment</span>
-                    <textarea 
-                    className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
-                    placeholder="Enter your Comments ..."
-                    rows={6}
-                    />
-                </label>
-                <button
-                className="w-full bg-blue-700 text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-blue-900 duration-300" 
-                type="submit"
-                >
-                    Submit
-                </button>
-            </form>
+          <p className="text-xs text-blue-700 uppercase">
+            Enjoyed this article 😁
+          </p>
+          <h3 className="text-3xl font-bold">Leave a Comment below ✍️</h3>
+          <hr className="py-3 mt-2" />
+          {/* Form */}
+          <input
+            {...register("_id")}
+            type="hidden"
+            name="_id"
+            value={post._id}
+          />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-7 flex flex-col gap-6 p-4"
+          >
+            <label className="flex flex-col">
+              <span className="font-semibold text-base">Name</span>
+              <input
+                {...register("name", { required: true })}
+                className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
+                type="text"
+                placeholder="Enter your name"
+              />
+            </label>
+            <label className="flex flex-col">
+              <span className="font-semibold text-base">Email</span>
+              <input
+                {...register("email", { required: true })}
+                className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
+                type="email"
+                placeholder="Enter your Email"
+              />
+            </label>
+            <label className="flex flex-col">
+              <span className="font-semibold text-base">Comment</span>
+              <textarea
+                {...register("comment", { required: true })}
+                className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
+                placeholder="Enter your Comments ..."
+                rows={6}
+              />
+            </label>
+            <button
+              className="w-full bg-blue-700 text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-blue-900 duration-300"
+              type="submit"
+            >
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     </div>
