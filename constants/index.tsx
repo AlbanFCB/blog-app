@@ -16,6 +16,6 @@ export const navLinksData: NavLink[] = [
         title: "Science"
     },
     {
-        title: "War"
+        title: "Entertainement"
     },
 ]

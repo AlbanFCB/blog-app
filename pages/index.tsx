@@ -1,32 +1,36 @@
-import type { NextPage } from 'next'
-import {sanityClient,urlFor} from "../sanity";
-import { Post } from './../typings.d';
-import  Image  from 'next/image';
-import Navbar from './../components/Navbar';
+import type { NextPage } from "next";
+import { sanityClient, urlFor } from "../sanity";
+import { Post } from "./../typings.d";
+import Image from "next/image";
+import Header from "./../components/Header";
 
-interface Props{
-  posts: [Post]
+interface Props {
+  posts: [Post];
 }
 
-export default function Home({posts}:Props) {
+export default function Home({ posts }: Props) {
   console.log(posts);
-  return(
-    <div className="bg-gray-200">
-      <Navbar/>
-      <h1 className="text-4xl">Voci mes articles</h1>
-      <div>
+  return (
+    <main className="bg-gray-50">
+      <Header />
+      <div className="max-w-screen-2xl mx-auto bg-white">
         {posts.map((post) => (
           <div>
             {post.title}
-            <Image alt="" width={400} height={350} src={urlFor(post.mainImage).url()}/>
+            <Image
+              alt=""
+              width={400}
+              height={350}
+              src={urlFor(post.mainImage).url()}
+            />
           </div>
         ))}
       </div>
-    </div>
-  )
+    </main>
+  );
 }
 
-export const getServerSideProps = async ()=>{
+export const getServerSideProps = async () => {
   const query = `*[_type == "post"]{
     _id,
     title,
@@ -37,11 +41,11 @@ export const getServerSideProps = async ()=>{
       description,
       mainImage,
       slug
-  }`
+  }`;
   const posts = await sanityClient.fetch(query);
-  return{
-    props:{
+  return {
+    props: {
       posts,
-    }
-  }
-}
+    },
+  };
+};
