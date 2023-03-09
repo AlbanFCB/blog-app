@@ -6,7 +6,16 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        bodyFont: "Poppins",
+        titleFont: "Montserrat",
+      },
+      colors: {
+        primaryColor: "#445045",
+        secondaryColor: " #5B625E",
+      }
+    },
   },
   plugins: [],
 }

@@ -6,6 +6,7 @@ import { GetStaticProps } from "next";
 import PortableText from "react-portable-text";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Footer from './../../components/Footer';
 
 interface Props {
   post: Post;
@@ -60,18 +61,18 @@ const Post = ({ post }: Props) => {
         alt="coverImage"
       />
       <div className="max-w-screen-lg mx-auto shadow-2xl mb-10">
-        <article className="w-full mx-auto p-5 bg-white">
-          <h1 className="font-medium text-[32px] text-primary border-b-[1px] border-gray-700 mt-10 mb-3">
+        <article className="w-full mx-auto p-6 bg-white text-justify">
+          <h1 className="font-titleFont font-bold text-4xl text-primary border-b-[1px] border-gray-700 mt-10 mb-3">
             {post.title}
           </h1>
-          <h2 className="text-[18px] text-gray-500 mb-2">{post.description}</h2>
+          <h2 className="font-titleFont font-semibold text-[18px] text-primaryColor mb-2">{post.description}</h2>
           <div className="flex items-center gap-4">
             <img
               className="w-12 h-12 rounded-full object-cover"
               src={urlFor(post.author.image).url()!}
               alt="author"
             />
-            <p className="text-base">
+            <p className="text-base font-bodyFont font-medium">
               Blog post by
               <span>{post.author.name}</span>- Published at{" "}
               {new Date(post.publishedAt).toLocaleDateString()}
@@ -88,8 +89,18 @@ const Post = ({ post }: Props) => {
                 h1: (props: any) => (
                   <h1 className="text-3xl font-bold my-5" {...props} />
                 ),
-                h2: (props: any) => <h2 className="text-2xl font-bold my-5" />,
-                h3: (props: any) => <h3 className="text-2xl font-bold my-5" />,
+                h2: (props: any) => (
+                  <h2 
+                  className="text-2xl font-bold my-5" 
+                  {...props}
+                  />
+                  ),
+                  h3: (props: any) => (
+                    <h3 
+                    className="text-2xl font-bold my-5" 
+                    {...props}
+                    />
+                    ),
                 li: ({ children }: any) => (
                   <li className="ml-4 list-disc">{children}</li>
                 ),
@@ -102,18 +113,17 @@ const Post = ({ post }: Props) => {
             />
           </div>
         </article>
-        <hr className="max-w-lg my-5 mx-auto border[1px] border-gray-700 font-bold" />
+        <hr className="max-w-xl my-5 mx-auto border[1px] border-gray-700 font-bold" />
         {submitted ? (
           <div className="flex flex-col items-center gap-2 p-10 my-10 bg-blue-700 text-white">
-            <h1 className="text-2xl font-bold">Thank you for your comment 💯</h1>
+            <h1 className="text-2xl font-bold">
+              Thank you for your comment 💯
+            </h1>
             <p>Once it has been approved, it will appear below !</p>
           </div>
         ) : (
           <div>
-            <p className="text-xs text-blue-700 uppercase">
-              Enjoyed this article 😁
-            </p>
-            <h3 className="text-3xl font-bold">Leave a Comment below ✍️</h3>
+            <h3 className="text-3xl font-bold font-titleFont text-primaryColor p-6">Leave a Comment below ✍️</h3>
             <hr className="py-3 mt-2" />
             {/* Form */}
             <input
@@ -129,9 +139,8 @@ const Post = ({ post }: Props) => {
               <label className="flex flex-col">
                 <span className="font-semibold text-base">Name</span>
                 <input
-                
                   {...register("name", { required: true })}
-                  className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
+                  className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-primaryColor"
                   type="text"
                   placeholder="Enter your name"
                 />
@@ -147,7 +156,7 @@ const Post = ({ post }: Props) => {
                 <span className="font-semibold text-base">Email</span>
                 <input
                   {...register("email", { required: true })}
-                  className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
+                  className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-primaryColor"
                   type="email"
                   placeholder="Enter your Email"
                 />
@@ -155,14 +164,14 @@ const Post = ({ post }: Props) => {
                   <p className="text-sm font-semibold text-red-500 my-1 px-4">
                     <span className="mr-2">❌</span>
                     Email is required !
-                  </p>  
+                  </p>
                 )}
               </label>
               <label className="flex flex-col">
                 <span className="font-semibold text-base">Comment</span>
                 <textarea
                   {...register("comment", { required: true })}
-                  className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-blue-700"
+                  className="text-base placeholder:text-sm border-b-[1px] border-gray-400 py-1 px-4 outline-none focus-within:shadow-xl shadow-primaryColor"
                   placeholder="Enter your Comments ..."
                   rows={6}
                 />
@@ -171,12 +180,11 @@ const Post = ({ post }: Props) => {
                     <span className="mr-2">❌</span>
                     Please Enter your Comments !
                   </p>
-                  
                 )}
               </label>
               {session && (
                 <button
-                  className="w-full bg-blue-700 text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-blue-900 duration-300"
+                  className="w-full bg-gray-500 text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-primaryColor duration-300"
                   type="submit"
                 >
                   Submit
@@ -215,6 +223,7 @@ const Post = ({ post }: Props) => {
           </div>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

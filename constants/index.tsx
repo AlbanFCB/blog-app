@@ -10,9 +10,9 @@ export const navLinksData: NavLink[] = [
         title: "Technology"
     },
     {
-        title: "Health"
+        title: "Manga"
     },
     {
-        title: "Science"
+        title: "Games"
     },
 ]

@@ -17,8 +17,12 @@ function Navbar() {
   return (
     <nav className="flex bg-white px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 left-0 border-b border-gray-200 shadow-2xl">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <Image src={Logo} height={100} width={120} alt="" />
+        {/* Logo */}
+        <Link href={"/"}>
+          <Image src={Logo} height={100} width={120} alt="" />
+        </Link>
 
+        {/* Category */}
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-sticky"
@@ -28,7 +32,7 @@ function Navbar() {
               <li key={index}>
                 <a
                   href="/"
-                  className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
+                  className="block py-2 pl-3 pr-4 text-white font-bodyFont bg-primaryColor rounded md:bg-transparent md:text-primaryColor font-semibold md:p-0 hover:font-bold"
                 >
                   {navLink.title}
                 </a>
@@ -36,55 +40,64 @@ function Navbar() {
             ))}
           </ul>
         </div>
-        <div className="sm: flex justify-between md:hidden">
-          <button
-            className="block text-3xl text-gray-400 hover:text-designColor focus:outline-none"
-            onClick={handleToggle}
-          >
-            {toggle ? (
-              <XMarkIcon className="h-10 w-10 text-gray-500" />
-            ) : (
-              <Bars3Icon className="h-10 w-10 text-gray-500" />
-            )}
-          </button>
-        </div>
+
+        {/* Log In / Out */}
         <div className="flex md:order-2">
+
+          {/* Connected users */}
           {session ? (
-            <div className="flex items-center gap-6">
-              <p>{session?.user?.name}</p>
+            <div className="flex items-center gap-4">
+              <p className="hidden md:flex font-semibold font-bodyFont">
+                {session?.user?.name}
+              </p>
               <img
-                className="w-8 h-8 rounded-full"
+                className="hidden md:flex w-8 h-8 rounded-full"
                 src={session?.user!.image!}
                 alt="UserImage"
               />
               <button
                 onClick={() => signOut()}
                 type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0"
+                className="font-bodyFont border border-primaryColor hover:bg-primaryColor hover:text-white font-bold py-2 px-4 rounded"
               >
                 Logout
               </button>
+              {/* Disconnected users */}
             </div>
           ) : (
             <button
               onClick={() => signIn()}
               type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0"
+              className="font-bodyFont border border-primaryColor hover:bg-primaryColor hover:text-white font-bold py-2 px-4 rounded"
             >
               Login
             </button>
           )}
         </div>
+        {/* display mobile view */}
+        <div className="sm: flex justify-between md:hidden">
+          <button
+            className="block text-3xl text-primaryColor hover:text-designColor focus:outline-none"
+            onClick={handleToggle}
+          >
+            {toggle ? (
+              <XMarkIcon className="h-10 w-10 text-primaryColor" />
+            ) : (
+              <Bars3Icon className="h-10 w-10 text-primaryColor" />
+            )}
+          </button>
+        </div>
       </div>
 
+      {/* Display all the link when true */}
       {toggle && (
         <div className="absolute left-0 top-14 w-full bg-bodyColor py-5">
-          <ul className="flex flex-col items-center gap-5 bg-blue-700">
+          <ul className="flex flex-col items-center gap-5 bg-primaryColor">
             {navLinksData.map((navLink: NavLink, index: number) => (
               <li key={index}>
                 <a
                   href="/"
-                  className="block p-3 text-white"
+                  className="block p-3 text-white font-semibold hover:font-bold"
                   onClick={handleToggle}
                 >
                   {navLink.title}
