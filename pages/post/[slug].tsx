@@ -48,7 +48,7 @@ const Post = ({ post }: Props) => {
         alt="coverImage"
       />
       <div className="max-w-screen-lg mx-auto shadow-2xl mb-10">
-        <article className="w-full mx-auto p-5 bg-gray-100">
+        <article className="w-full mx-auto p-5 bg-white">
           <h1 className="font-medium text-[32px] text-primary border-b-[1px] border-gray-700 mt-10 mb-3">
             {post.title}
           </h1>
@@ -142,6 +142,18 @@ const Post = ({ post }: Props) => {
               Submit
             </button>
           </form>
+          {/* Comments */}
+          <div className="w-full flex flex-col p-10 my-10 mx-auto shadow-gray shadow-2xl space-y-2">
+            <h3 className="text-3xl font-semibold">Comments</h3>
+            <hr/>
+              {
+                post.comments.map((comment)=>(
+                  <div key={comment._id}>
+                    <p><span className="text-blue-700">{comment.name}</span>{" "}{comment.comment}</p>
+                  </div>
+                ))
+              }
+          </div>
         </div>
       </div>
     </div>
@@ -178,6 +190,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 name,
                 image,
             },
+            "comments":*[_type == "comment" && post._ref == ^._id && approved == true],
             description,
             mainImage,
             slug,

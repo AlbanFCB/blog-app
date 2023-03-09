@@ -5,8 +5,11 @@ import { NavLink, navLinksData } from "../constants/index";
 import Link from "next/link";
 import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 function Navbar() {
+  const { data: session } = useSession();
+
   const [toggle, setToggle] = useState(false);
 
   const handleToggle = () => setToggle(!toggle);
@@ -46,12 +49,31 @@ function Navbar() {
           </button>
         </div>
         <div className="flex md:order-2">
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0"
-          >
-            Login
-          </button>
+          {session ? (
+            <div className="flex items-center gap-6">
+              <p>{session?.user?.name}</p>
+              <img
+                className="w-8 h-8 rounded-full"
+                src={session?.user!.image!}
+                alt="UserImage"
+              />
+              <button
+                onClick={() => signOut()}
+                type="button"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => signIn()}
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0"
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
 
