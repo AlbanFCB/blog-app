@@ -4,16 +4,18 @@ import Image from "next/image";
 import Header from "./../components/Header";
 import Link from "next/link";
 import Footer from './../components/Footer';
+import Navbar from './../components/Navbar';
 
 interface Props {
   posts: [Post];
 }
 
 export default function Home({ posts }: Props) {
-  console.log(posts);
+  //console.log(posts);
   return (
     <main className="bg-gray-50">
       <Header />
+      <Navbar posts={posts}/>
       <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet"
@@ -64,7 +66,12 @@ export const getServerSideProps = async () => {
     },
       description,
       mainImage,
-      slug
+      slug,
+      "categories":*[_type == "category"]{
+        _id,
+        title,
+          description
+      }
   }`;
   const posts = await sanityClient.fetch(query);
   return {

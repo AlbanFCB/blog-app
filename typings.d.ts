@@ -17,6 +17,7 @@ export interface Post{
         current: string;
     };
     body: [object];
+    categories: Categorie[];
 }
 
 export interface Comment {
@@ -33,4 +34,10 @@ export interface Comment {
     _rev: string;
     _type: string;
     _updateAt: string;
+}
+
+export interface Category {
+    _id: string;
+    title: string;
+    description: string;
 }
