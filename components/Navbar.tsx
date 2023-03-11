@@ -14,23 +14,15 @@ interface Props {
 }
 
 function Navbar({ posts }: Props) {
-  console.log("post --->", posts);
+  //console.log("post --->", posts);
   const { data: session } = useSession();
 
   const [toggle, setToggle] = useState(false);
 
   const handleToggle = () => setToggle(!toggle);
 
-  const categories = Array.from(
-    new Set(
-      posts
-        ?.map((post) => post.categories)
-        .flat()
-        ?.map((category) => category.title)
-    )
-  );
   return (
-    <nav className="flex bg-white px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 left-0 border-b border-gray-200 shadow-2xl">
+    <nav className="flex bg-white px-2 sm:px-4 py-2.5 w-full z-20 top-0 left-0 border-b border-gray-200 shadow-2xl">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         {/* Logo */}
         <Link href={"/"}>
@@ -43,13 +35,13 @@ function Navbar({ posts }: Props) {
           id="navbar-sticky"
         >
           <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-lg md:font-medium md:border-0 md:bg-white">
-            {categories.map((category) => (
-              <li key={category}>
+            {navLinksData.map((navLink) => (
+              <li key={navLink.title}>
                 <a
                   href="/"
                   className="block py-2 pl-3 pr-4 text-white font-bodyFont bg-primaryColor rounded md:bg-transparent md:text-primaryColor font-semibold md:p-0 hover:font-bold"
                 >
-                  {category}
+                  {navLink.title}
                 </a>
               </li>
             ))}

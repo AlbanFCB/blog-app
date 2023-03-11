@@ -1,4 +1,5 @@
 export interface Post{
+    category: any;
     _id:string;
     publishedAt: string;
     title: string;
@@ -36,7 +37,7 @@ export interface Comment {
     _updateAt: string;
 }
 
-export interface Category {
+export interface Categorie {
     _id: string;
     title: string;
     description: string;
