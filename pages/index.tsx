@@ -4,13 +4,8 @@ import Image from "next/image";
 import Header from "./../components/Header";
 import Link from "next/link";
 import Footer from "./../components/Footer";
-import Navbar from "./../components/Navbar";
 import { useState } from "react";
-import { GlobeAltIcon } from "@heroicons/react/24/outline";
-import { CodeBracketIcon } from "@heroicons/react/24/outline";
-import { PowerIcon } from "@heroicons/react/24/outline";
-import { BookOpenIcon } from "@heroicons/react/24/outline";
-import { TrophyIcon } from "@heroicons/react/24/outline";
+import { GlobeAltIcon, TrophyIcon, CodeBracketIcon, PowerIcon, BookOpenIcon } from "@heroicons/react/24/outline";
 
 interface Props {
   posts: [Post];
@@ -20,6 +15,7 @@ export default function Home({ posts }: Props) {
   console.log(posts);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  
 
   // Fonction pour filtrer les articles selon la catégorie sélectionnée
   const filteredPosts = posts.filter((post) => {
@@ -54,24 +50,24 @@ export default function Home({ posts }: Props) {
         rel="stylesheet"
       ></link>
       <div className="">
-      <div className="flex items-center text-lg justify-center  py-6  shadow-2xl bg-primaryColor">
+      <div className="flex flex-wrap items-center text-lg justify-center py-6 shadow-2xl bg-primaryColor">
           {/* Bouton "All" */}
           <button
-            className={`flex  px-6 py-4 mx-4 rounded-lg font-medium shadow-2xl font-titleFont ${
+            className={`flex w-full md:w-auto px-4 py-4 mx-2 my-1 md:mx-4 rounded-lg font-medium shadow-2xl font-titleFont ${
               selectedCategory === "All"
                 ? "bg-green-400 text-black"
                 : "bg-white text-gray-800"
             }`}
             onClick={() => handleCategoryChange("All")}
           >
-            <GlobeAltIcon className="h-6 w-6 mr-2 text-gray-500" />
+            <GlobeAltIcon className="h-6 w-6 mr-2 text-gray-800" />
             All
           </button>
           {/* Boutons pour chaque catégorie unique */}
           {categories.map((category) => (
             <button
               key={category}
-              className={`flex px-6 py-4 mx-4 rounded-lg font-medium shadow-2xl font-titleFont ${
+              className={`flex w-full md:w-auto px-4 py-4 mx-2 my-1 md:mx-4 rounded-lg font-medium shadow-2xl font-titleFont ${
                 selectedCategory === category
                   ? "bg-green-400 text-black"
                   : "bg-white text-gray-800"
@@ -144,6 +140,7 @@ export const getServerSideProps = async () => {
       description
     }
   }`;
+  
   const posts = await sanityClient.fetch(query);
   return {
     props: {

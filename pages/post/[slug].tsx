@@ -54,7 +54,7 @@ const Post = ({ post }: Props) => {
 
   return (
     <div>
-      <Navbar posts={[post]}/>
+      <Navbar/>
       <img
         className="w-full h-96 object-cover"
         src={urlFor(post.mainImage).url()!}
