@@ -6,7 +6,7 @@ import { GetStaticProps } from "next";
 import PortableText from "react-portable-text";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSession, signIn, signOut } from "next-auth/react";
-import Footer from './../../components/Footer';
+import Footer from "./../../components/Footer";
 
 interface Props {
   post: Post;
@@ -31,7 +31,7 @@ const Post = ({ post }: Props) => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  
     fetch("/api/createComment", {
       method: "POST",
       body: JSON.stringify(data),
@@ -54,7 +54,7 @@ const Post = ({ post }: Props) => {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <img
         className="w-full h-96 object-cover"
         src={urlFor(post.mainImage).url()!}
@@ -65,7 +65,9 @@ const Post = ({ post }: Props) => {
           <h1 className="font-titleFont font-bold text-4xl text-primary border-b-[1px] border-gray-700 mt-10 mb-3">
             {post.title}
           </h1>
-          <h2 className="font-titleFont font-semibold text-[18px] text-primaryColor mb-2">{post.description}</h2>
+          <h2 className="font-titleFont font-semibold text-[18px] text-primaryColor mb-2">
+            {post.description}
+          </h2>
           <div className="flex items-center gap-4">
             <img
               className="w-12 h-12 rounded-full object-cover"
@@ -90,17 +92,11 @@ const Post = ({ post }: Props) => {
                   <h1 className="text-3xl font-bold my-5" {...props} />
                 ),
                 h2: (props: any) => (
-                  <h2 
-                  className="text-2xl font-bold my-5" 
-                  {...props}
-                  />
-                  ),
-                  h3: (props: any) => (
-                    <h3 
-                    className="text-2xl font-bold my-5" 
-                    {...props}
-                    />
-                    ),
+                  <h2 className="text-2xl font-bold my-5" {...props} />
+                ),
+                h3: (props: any) => (
+                  <h3 className="text-2xl font-bold my-5" {...props} />
+                ),
                 li: ({ children }: any) => (
                   <li className="ml-4 list-disc">{children}</li>
                 ),
@@ -123,7 +119,9 @@ const Post = ({ post }: Props) => {
           </div>
         ) : (
           <div>
-            <h3 className="text-3xl font-bold font-titleFont text-primaryColor p-6">Leave a Comment below ✍️</h3>
+            <h3 className="text-3xl font-bold font-titleFont text-primaryColor p-6">
+              Leave a Comment below ✍️
+            </h3>
             <hr className="py-3 mt-2" />
             {/* Form */}
             <input
@@ -223,7 +221,7 @@ const Post = ({ post }: Props) => {
           </div>
         )}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

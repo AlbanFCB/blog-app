@@ -1,12 +1,9 @@
 import React from "react";
 import Logo from "../public/images/Logo.png";
 import Image from "next/image";
-import { NavLink, navLinksData } from "../constants/index";
 import Link from "next/link";
 import { useState } from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { sanityClient, urlFor } from "../sanity";
 
 function Navbar() {
   const { data: session } = useSession();
