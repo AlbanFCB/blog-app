@@ -5,7 +5,7 @@ import { Post } from "../../typings.d";
 import { GetStaticProps } from "next";
 import PortableText from "react-portable-text";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Footer from "./../../components/Footer";
 
 interface Props {
@@ -89,19 +89,19 @@ const Post = ({ post }: Props) => {
               content={post.body}
               serializers={{
                 h1: (props: any) => (
-                  <h1 className="text-3xl font-bold my-5" {...props} />
+                  <h1 className="text-3xl font-bold my-5 font-titleFont" {...props} />
                 ),
                 h2: (props: any) => (
-                  <h2 className="text-2xl font-bold my-5" {...props} />
+                  <h2 className="text-2xl font-bold my-5 font-titleFont" {...props} />
                 ),
                 h3: (props: any) => (
-                  <h3 className="text-2xl font-bold my-5" {...props} />
+                  <h3 className="text-2xl font-bold my-5 font-titleFont" {...props} />
                 ),
                 li: ({ children }: any) => (
-                  <li className="ml-4 list-disc">{children}</li>
+                  <li className="ml-4 list-disc font-bodyFont">{children}</li>
                 ),
                 link: ({ href, children }: any) => (
-                  <a href={href} className="text-blue-500 hover:underline">
+                  <a href={href} className="text-blue-500 hover:underline font-bodyFont">
                     {children}
                   </a>
                 ),
@@ -111,7 +111,7 @@ const Post = ({ post }: Props) => {
         </article>
         <hr className="max-w-xl my-5 mx-auto border[1px] border-gray-700 font-bold" />
         {submitted ? (
-          <div className="flex flex-col items-center gap-2 p-10 my-10 bg-blue-700 text-white">
+          <div className="flex flex-col items-center gap-2 p-10 my-10 bg-primaryColor text-white">
             <h1 className="text-2xl font-bold">
               Thank you for your comment 💯
             </h1>
@@ -182,7 +182,7 @@ const Post = ({ post }: Props) => {
               </label>
               {session && (
                 <button
-                  className="w-full bg-gray-500 text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-primaryColor duration-300"
+                  className="w-full bg-primaryColor text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-gray-500 duration-300"
                   type="submit"
                 >
                   Submit
@@ -192,7 +192,7 @@ const Post = ({ post }: Props) => {
             {!session && (
               <button
                 onClick={handleUserErr}
-                className="w-full bg-blue-700 text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-blue-900 duration-300"
+                className="w-full bg-primaryColor text-white text-base font-semibold tracking-wider uppercase py-2 rounded-sm hover:bg-gray-500 duration-300"
                 type="submit"
               >
                 Submit
@@ -212,7 +212,7 @@ const Post = ({ post }: Props) => {
               {post.comments.map((comment) => (
                 <div key={comment._id}>
                   <p>
-                    <span className="text-blue-700">{comment.name}</span>{" "}
+                    <span className="text-primaryColor font-bodyFont font-semibold">{comment.name}</span>{": "}
                     {comment.comment}
                   </p>
                 </div>

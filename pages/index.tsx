@@ -59,8 +59,9 @@ export default function Home({ posts }: Props) {
     (currentPage + 1) * POSTS_PER_PAGE
   );
 
+  // reset page to 0 when category is changed
   useEffect(() => {
-    setCurrentPage(0); // reset page to 0 when category is changed
+    setCurrentPage(0); 
   }, [selectedCategory]);
 
   return (

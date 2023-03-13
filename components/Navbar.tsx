@@ -2,20 +2,17 @@ import React from "react";
 import Logo from "../public/images/Logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 function Navbar() {
   const { data: session } = useSession();
 
-  const [toggle, setToggle] = useState(false);
-
-  const handleToggle = () => setToggle(!toggle);
-
   return (
     <nav className="flex bg-white px-2 sm:px-4 py-2.5 w-full z-20 top-0 left-0 border-b border-gray-200 shadow-2xl">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
+
         {/* Logo */}
+
         <Link href={"/"}>
           <Image src={Logo} height={100} width={120} alt="" />
         </Link>
@@ -26,6 +23,7 @@ function Navbar() {
         </div>
 
         {/* Log In / Out */}
+
         <div className="flex md:order-2">
           {/* Connected users */}
           {session ? (
@@ -45,6 +43,7 @@ function Navbar() {
               >
                 Logout
               </button>
+
               {/* Disconnected users */}
             </div>
           ) : (
