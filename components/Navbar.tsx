@@ -7,14 +7,25 @@ import { useSession, signIn, signOut } from "next-auth/react";
 function Navbar() {
   const { data: session } = useSession();
 
+  async function handleGoogleSignin() {
+    signIn("google", {
+      callbackUrl: `${(process.env.NEXTAUTH_URL)}`,
+    });
+  }
+
   return (
     <nav className="flex bg-white px-2 sm:px-4 py-2.5 w-full z-20 top-0 left-0 border-b border-gray-200 shadow-2xl">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-
         {/* Logo */}
 
         <Link href={"/"}>
-          <Image className="w-auto h-auto" src={Logo} height={100} width={120} alt="" />
+          <Image
+            className="w-auto h-auto"
+            src={Logo}
+            height={100}
+            width={120}
+            alt=""
+          />
         </Link>
 
         {/* Category */}
@@ -48,7 +59,7 @@ function Navbar() {
             </div>
           ) : (
             <button
-              onClick={() => signIn()}
+              onClick={handleGoogleSignin}
               type="button"
               className="font-bodyFont border border-primaryColor hover:bg-primaryColor hover:text-white font-bold py-2 px-4 rounded"
             >
