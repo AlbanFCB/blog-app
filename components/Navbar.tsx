@@ -14,7 +14,7 @@ function Navbar() {
         {/* Logo */}
 
         <Link href={"/"}>
-          <Image src={Logo} height={100} width={120} alt="" />
+          <Image className="w-auto h-auto" src={Logo} height={100} width={120} alt="" />
         </Link>
 
         {/* Category */}
